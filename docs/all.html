@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>全部资料 - AI素养评价资料库</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section>
+      <div class="section-head">
+        <h2>全部资料</h2>
+        <span class="hint">搜索、筛选、定位来源</span>
+      </div>
+      <div class="searchbar">
+        <input id="search" type="search" placeholder="搜索标题、来源、关键词、业务关系">
+        <select id="type">
+          <option value="">全部类型</option>
+          <option value="政策">政策</option>
+          <option value="专家观点">专家观点</option>
+          <option value="文献">文献</option>
+        </select>
+        <select id="topic">
+          <option value="">全部方向</option>
+          <option value="AI教育">AI教育</option>
+          <option value="AI素养">AI素养</option>
+          <option value="过程性评价">过程性评价</option>
+          <option value="综合素质评价">综合素质评价</option>
+          <option value="五育">五育</option>
+          <option value="教育数字化">教育数字化</option>
+        </select>
+      </div>
+      <div id="list"></div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+  <script>
+    App.shell("全部资料", "所有政策、专家观点和文献资料的统一检索入口。");
+    const filters = { search: "", type: "", topic: "" };
+    let items = [];
+    function render() {
+      const visible = App.filterItems(items, filters);
+      document.querySelector("#list").innerHTML = visible.map(App.resourceCard).join("") || '<div class="empty">暂无匹配资料。</div>';
+    }
+    App.load().then((data) => {
+      App.setUpdated(data);
+      items = data.items || [];
+      render();
+      ["search", "type", "topic"].forEach((id) => {
+        document.querySelector(`#${id}`).addEventListener("input", (event) => {
+          filters[id] = event.target.value;
+          render();
+        });
+      });
+    });
+  </script>
+</body>
+</html>

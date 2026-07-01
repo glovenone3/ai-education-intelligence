@@ -4,640 +4,88 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI素养评价资料库</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f6f7f9;
-      --panel: #ffffff;
-      --text: #182230;
-      --muted: #667085;
-      --line: #d7dde8;
-      --brand: #0f6b4f;
-      --brand-soft: #e8f5ef;
-      --blue: #175cd3;
-      --amber: #8a5b00;
-      --amber-soft: #fff4d6;
-      --chip: #eef2f6;
-      --shadow: 0 1px 2px rgba(16, 24, 40, .06);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      line-height: 1.55;
-    }
-
-    a {
-      color: var(--blue);
-      text-decoration: none;
-    }
-
-    a:hover { text-decoration: underline; }
-
-    header {
-      background: var(--panel);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .header-inner {
-      width: min(1240px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 22px 0 18px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: end;
-    }
-
-    h1 {
-      margin: 0 0 6px;
-      font-size: clamp(24px, 4vw, 34px);
-      letter-spacing: 0;
-      line-height: 1.2;
-    }
-
-    .subtitle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .updated {
-      color: var(--muted);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .layout {
-      width: min(1240px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 18px 0 44px;
-      display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
-      gap: 18px;
-    }
-
-    nav {
-      position: sticky;
-      top: 14px;
-      align-self: start;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: var(--shadow);
-    }
-
-    nav a {
-      display: block;
-      padding: 9px 10px;
-      border-radius: 6px;
-      color: #344054;
-      font-size: 14px;
-    }
-
-    nav a:hover {
-      background: var(--chip);
-      text-decoration: none;
-    }
-
-    section {
-      scroll-margin-top: 18px;
-      margin-bottom: 18px;
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: end;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: 0;
-      line-height: 1.3;
-    }
-
-    .hint {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .card,
-    .resource,
-    .expert,
-    .brief {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-    }
-
-    .card { padding: 14px; }
-
-    .card strong {
-      display: block;
-      font-size: 26px;
-      line-height: 1.15;
-    }
-
-    .card span {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .message {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--brand);
-      border-radius: 8px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
-    }
-
-    .message h3,
-    .expert h3,
-    .resource h3,
-    .brief h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-      letter-spacing: 0;
-      line-height: 1.35;
-    }
-
-    .message p,
-    .expert p,
-    .resource p,
-    .brief p {
-      margin: 0 0 10px;
-    }
-
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .tab {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      color: #344054;
-      border-radius: 999px;
-      min-height: 34px;
-      padding: 0 12px;
-      cursor: pointer;
-      font: inherit;
-      font-size: 13px;
-    }
-
-    .tab.active {
-      border-color: var(--brand);
-      background: var(--brand-soft);
-      color: var(--brand);
-      font-weight: 650;
-    }
-
-    .resource {
-      padding: 14px;
-      margin-bottom: 10px;
-    }
-
-    .resource-header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: start;
-    }
-
-    .meta,
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 8px 0;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 23px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: var(--chip);
-      color: #344054;
-      font-size: 12px;
-    }
-
-    .tag.type {
-      background: var(--brand-soft);
-      color: var(--brand);
-      font-weight: 650;
-    }
-
-    .tag.use {
-      background: var(--amber-soft);
-      color: var(--amber);
-    }
-
-    .resource .relation {
-      background: #f8fafc;
-      border: 1px solid #edf1f7;
-      border-radius: 8px;
-      padding: 10px;
-      color: #344054;
-      font-size: 14px;
-    }
-
-    .expert {
-      padding: 16px;
-    }
-
-    .expert-top {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: start;
-    }
-
-    .expert-name {
-      font-size: 20px;
-      font-weight: 750;
-    }
-
-    .brief {
-      padding: 14px;
-    }
-
-    .brief h3 {
-      color: var(--brand);
-    }
-
-    .searchbar {
-      display: grid;
-      grid-template-columns: 1fr 160px 170px;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    input,
-    select {
-      width: 100%;
-      min-height: 40px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      color: var(--text);
-      padding: 0 12px;
-      font: inherit;
-    }
-
-    .empty {
-      padding: 24px;
-      color: var(--muted);
-      text-align: center;
-      border: 1px dashed var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-    }
-
-    @media (max-width: 900px) {
-      .header-inner,
-      .layout {
-        width: min(100% - 20px, 1240px);
-      }
-
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      nav {
-        position: static;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .grid,
-      .grid-2,
-      .searchbar {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <div>
-        <h1>AI素养评价资料库</h1>
-        <p class="subtitle">面向售后、推广和内容同学：政策依据、专家档案、文献支撑、五育映射和可用表达。</p>
+  <main class="wrap">
+    <section>
+      <div class="section-head">
+        <h2>资料库入口</h2>
+        <span class="hint">给售后、推广、公众号和自媒体同学使用</span>
       </div>
-      <div class="updated" id="updated">加载中</div>
-    </div>
-  </header>
+      <div class="grid" id="stats"></div>
+    </section>
 
-  <div class="layout">
-    <nav aria-label="资料库导航">
-      <a href="#overview">概览</a>
-      <a href="#business">公司口径</a>
-      <a href="#policies">政策地图</a>
-      <a href="#experts">专家库</a>
-      <a href="#papers">文献库</a>
-      <a href="#briefs">公众号素材</a>
-      <a href="#all">全部资料</a>
-    </nav>
+    <section>
+      <div class="section-head">
+        <h2>按用途进入</h2>
+        <span class="hint">不要在首页翻长列表，先选工作场景</span>
+      </div>
+      <div class="grid-2">
+        <a class="panel-link" href="policies.html">
+          <strong>政策库</strong>
+          <span>国家政策、课程标准、北京上海等地方方案。</span>
+        </a>
+        <a class="panel-link" href="experts.html">
+          <strong>专家库</strong>
+          <span>按人物建档，进入专家页查看该专家相关资料列表。</span>
+        </a>
+        <a class="panel-link" href="papers.html">
+          <strong>文献库</strong>
+          <span>AI素养、信息科技课程、过程性评价相关论文。</span>
+        </a>
+        <a class="panel-link" href="briefs.html">
+          <strong>内容素材</strong>
+          <span>结合公司业务整理的公众号、自媒体、售后话术角度。</span>
+        </a>
+      </div>
+    </section>
 
-    <main>
-      <section id="overview">
-        <div class="section-head">
-          <h2>第一周历史基线</h2>
-          <span class="hint" id="period"></span>
-        </div>
-        <div class="grid">
-          <div class="card"><strong id="stat-total">0</strong><span>资料总数</span></div>
-          <div class="card"><strong id="stat-policy">0</strong><span>政策依据</span></div>
-          <div class="card"><strong id="stat-expert">0</strong><span>专家观点</span></div>
-          <div class="card"><strong id="stat-paper">0</strong><span>文献支撑</span></div>
-        </div>
-      </section>
+    <section>
+      <div class="section-head">
+        <h2>公司可用总结</h2>
+        <span class="hint">对外表达先抓这几句话</span>
+      </div>
+      <div class="panel" id="strategy"></div>
+    </section>
 
-      <section id="business">
-        <div class="section-head">
-          <h2>公司口径</h2>
-          <span class="hint">给售后、推广、内容同学统一表达</span>
-        </div>
-        <div id="strategy"></div>
-      </section>
+    <section>
+      <div class="section-head">
+        <h2>重点专家</h2>
+        <a href="experts.html">查看全部专家</a>
+      </div>
+      <div class="grid-2" id="experts"></div>
+    </section>
+  </main>
 
-      <section id="policies">
-        <div class="section-head">
-          <h2>政策地图</h2>
-          <span class="hint">从国家顶层到地方落地，按业务相关性整理</span>
-        </div>
-        <div class="tabs" id="policy-tabs"></div>
-        <div id="policy-list"></div>
-      </section>
-
-      <section id="experts">
-        <div class="section-head">
-          <h2>专家库</h2>
-          <span class="hint">按人物建档，不按零散文章堆叠</span>
-        </div>
-        <div class="grid-2" id="expert-list"></div>
-      </section>
-
-      <section id="papers">
-        <div class="section-head">
-          <h2>文献库</h2>
-          <span class="hint">支撑指标设计、过程性评价和AI素养框架</span>
-        </div>
-        <div id="paper-list"></div>
-      </section>
-
-      <section id="briefs">
-        <div class="section-head">
-          <h2>公众号与自媒体素材</h2>
-          <span class="hint">每周从资料里提炼可直接转内容的选题</span>
-        </div>
-        <div class="grid-2" id="brief-list"></div>
-      </section>
-
-      <section id="all">
-        <div class="section-head">
-          <h2>全部资料</h2>
-          <span class="hint">搜索、筛选、定位来源</span>
-        </div>
-        <div class="searchbar">
-          <input id="search" type="search" placeholder="搜索标题、来源、关键词、业务关系">
-          <select id="type">
-            <option value="">全部类型</option>
-            <option value="政策">政策</option>
-            <option value="专家观点">专家观点</option>
-            <option value="文献">文献</option>
-          </select>
-          <select id="topic">
-            <option value="">全部方向</option>
-            <option value="AI教育">AI教育</option>
-            <option value="AI素养">AI素养</option>
-            <option value="过程性评价">过程性评价</option>
-            <option value="综合素质评价">综合素质评价</option>
-            <option value="五育">五育</option>
-            <option value="教育数字化">教育数字化</option>
-          </select>
-        </div>
-        <div id="all-list"></div>
-      </section>
-    </main>
-  </div>
-
+  <script src="./app.js"></script>
   <script>
-    const state = {
-      data: null,
-      policyRegion: "全部",
-      filters: {
-        search: "",
-        type: "",
-        topic: ""
-      }
-    };
+    App.shell("AI素养评价资料库", "每周整理教育、AI教育政策、专家观点和文献资料，并转换成公司可用素材。");
+    App.load().then((data) => {
+      App.setUpdated(data);
+      const summary = data.summary || {};
+      const statRows = [
+        ["资料总数", summary.total || 0],
+        ["政策", summary.policies || 0],
+        ["专家", summary.experts || 0],
+        ["专家资料", summary.expertResources || 0]
+      ];
+      document.querySelector("#stats").innerHTML = statRows.map(([label, value]) => `
+        <div class="card">
+          <strong>${App.esc(value)}</strong>
+          <span>${App.esc(label)}</span>
+        </div>
+      `).join("");
 
-    function esc(value) {
-      return String(value || "").replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      }[char]));
-    }
-
-    function tags(values, extraClass = "") {
-      return (values || []).map((value) => `<span class="tag ${extraClass}">${esc(value)}</span>`).join("");
-    }
-
-    function resourceCard(item) {
-      return `
-        <article class="resource">
-          <div class="resource-header">
-            <div>
-              <h3>${esc(item.title)}</h3>
-              <div class="meta">
-                <span class="tag type">${esc(item.type)}</span>
-                <span class="tag">${esc(item.date || "日期待补")}</span>
-                <span class="tag">${esc(item.region || "其他")}</span>
-                <span class="tag">${esc(item.source)}</span>
-              </div>
-            </div>
-            <a href="${esc(item.url)}" target="_blank" rel="noopener">原文</a>
-          </div>
-          <p>${esc(item.summary)}</p>
-          <div class="relation"><strong>怎么用：</strong>${esc(item.businessRelation)}</div>
-          <div class="tags">${tags(item.topics)}${tags(item.keywords, "use")}</div>
-        </article>
-      `;
-    }
-
-    function renderOverview(data) {
-      document.querySelector("#updated").textContent = `更新：${data.generatedAt || ""}`;
-      document.querySelector("#period").textContent = `${data.baseline.name}｜${data.baseline.period}`;
-      document.querySelector("#stat-total").textContent = data.summary.total;
-      document.querySelector("#stat-policy").textContent = data.summary.policies;
-      document.querySelector("#stat-expert").textContent = data.summary.expertViews;
-      document.querySelector("#stat-paper").textContent = data.summary.papers;
-    }
-
-    function renderStrategy(data) {
       const strategy = data.strategy || {};
       document.querySelector("#strategy").innerHTML = `
-        <div class="message">
-          <h3>一句话定位</h3>
-          <p>${esc(strategy.positioning)}</p>
-        </div>
-        <div class="grid-2">
-          <div class="message">
-            <h3>售后怎么讲</h3>
-            <p>${esc(strategy.salesMessage)}</p>
-          </div>
-          <div class="message">
-            <h3>内容怎么写</h3>
-            <p>${esc(strategy.contentMessage)}</p>
-          </div>
-        </div>
+        <p><strong>定位：</strong>${App.esc(strategy.positioning)}</p>
+        <p><strong>售后/推广：</strong>${App.esc(strategy.salesMessage)}</p>
+        <p><strong>公众号/自媒体：</strong>${App.esc(strategy.contentMessage)}</p>
       `;
-    }
 
-    function renderPolicies() {
-      const policies = state.data.items.filter((item) => item.type === "政策");
-      const regions = ["全部", ...Array.from(new Set(policies.map((item) => item.region)))];
-      document.querySelector("#policy-tabs").innerHTML = regions.map((region) => `
-        <button class="tab ${region === state.policyRegion ? "active" : ""}" data-region="${esc(region)}">${esc(region)}</button>
-      `).join("");
-
-      document.querySelectorAll("#policy-tabs .tab").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.policyRegion = button.dataset.region;
-          renderPolicies();
-        });
-      });
-
-      const visible = state.policyRegion === "全部"
-        ? policies
-        : policies.filter((item) => item.region === state.policyRegion);
-
-      document.querySelector("#policy-list").innerHTML = visible.map(resourceCard).join("") || '<div class="empty">暂无政策资料。</div>';
-    }
-
-    function renderExperts(data) {
-      document.querySelector("#expert-list").innerHTML = (data.experts || []).map((expert) => `
-        <article class="expert">
-          <div class="expert-top">
-            <div class="expert-name">${esc(expert.name)}</div>
-            <span class="tag type">人物档案</span>
-          </div>
-          <p>${esc(expert.profile)}</p>
-          <div class="tags">${tags(expert.focus)}</div>
-          <p><strong>为什么相关：</strong>${esc(expert.whyRelevant)}</p>
-          <p><strong>售后用法：</strong>${esc(expert.salesUse)}</p>
-          <p><strong>内容用法：</strong>${esc(expert.contentUse)}</p>
-          <div>
-            ${(expert.resources || []).map((resource) => `
-              <div class="meta">
-                <span class="tag">${esc(resource.date)}</span>
-                <span class="tag">${esc(resource.source)}</span>
-                <a href="${esc(resource.url)}" target="_blank" rel="noopener">${esc(resource.title)}</a>
-              </div>
-            `).join("")}
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function renderPapers(data) {
-      const papers = data.items.filter((item) => item.type === "文献");
-      document.querySelector("#paper-list").innerHTML = papers.map(resourceCard).join("") || '<div class="empty">暂无文献资料。</div>';
-    }
-
-    function renderBriefs(data) {
-      document.querySelector("#brief-list").innerHTML = (data.contentBriefs || []).map((brief) => `
-        <article class="brief">
-          <h3>${esc(brief.title)}</h3>
-          <div class="meta"><span class="tag type">${esc(brief.audience)}</span></div>
-          <p><strong>切入点：</strong>${esc(brief.angle)}</p>
-          <p><strong>公司角度：</strong>${esc(brief.companyPoint)}</p>
-        </article>
-      `).join("");
-    }
-
-    function allText(item) {
-      return [
-        item.title,
-        item.source,
-        item.summary,
-        item.businessRelation,
-        ...(item.keywords || []),
-        ...(item.topics || [])
-      ].join(" ").toLowerCase();
-    }
-
-    function matches(item) {
-      const query = state.filters.search.trim().toLowerCase();
-      if (query && !allText(item).includes(query)) return false;
-      if (state.filters.type && item.type !== state.filters.type) return false;
-      if (state.filters.topic && !(item.topics || []).includes(state.filters.topic)) return false;
-      return true;
-    }
-
-    function renderAll() {
-      const items = state.data.items.filter(matches);
-      document.querySelector("#all-list").innerHTML = items.map(resourceCard).join("") || '<div class="empty">暂无匹配资料。</div>';
-    }
-
-    function bindFilters() {
-      ["search", "type", "topic"].forEach((id) => {
-        document.querySelector(`#${id}`).addEventListener("input", (event) => {
-          state.filters[id] = event.target.value;
-          renderAll();
-        });
-      });
-    }
-
-    fetch("./data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        state.data = data;
-        renderOverview(data);
-        renderStrategy(data);
-        renderPolicies();
-        renderExperts(data);
-        renderPapers(data);
-        renderBriefs(data);
-        renderAll();
-        bindFilters();
-      })
-      .catch(() => {
-        document.querySelector("main").innerHTML = '<div class="empty">无法读取 data.json。</div>';
-      });
+      document.querySelector("#experts").innerHTML = (data.experts || []).map(App.expertCard).join("");
+    });
   </script>
 </body>
 </html>

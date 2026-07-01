@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>政策库 - AI素养评价资料库</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section>
+      <div class="section-head">
+        <h2>政策库</h2>
+        <span class="hint">国家顶层政策、课程标准、地方落地方案</span>
+      </div>
+      <div class="tabs" id="region-tabs"></div>
+      <div id="list"></div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+  <script>
+    App.shell("政策库", "按国家、省市和业务相关性整理政策依据。");
+    let active = "全部";
+    App.load().then((data) => {
+      App.setUpdated(data);
+      const items = data.items.filter((item) => item.type === "政策");
+      const regions = ["全部", ...Array.from(new Set(items.map((item) => item.region)))];
+      function render() {
+        document.querySelector("#region-tabs").innerHTML = regions.map((region) => `
+          <button class="tab ${region === active ? "active" : ""}" data-region="${App.esc(region)}">${App.esc(region)}</button>
+        `).join("");
+        document.querySelectorAll(".tab").forEach((button) => {
+          button.addEventListener("click", () => {
+            active = button.dataset.region;
+            render();
+          });
+        });
+        const visible = active === "全部" ? items : items.filter((item) => item.region === active);
+        document.querySelector("#list").innerHTML = visible.map(App.resourceCard).join("") || '<div class="empty">暂无政策资料。</div>';
+      }
+      render();
+    });
+  </script>
+</body>
+</html>
+

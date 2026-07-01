@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>专家详情 - AI素养评价资料库</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section id="profile"></section>
+    <section>
+      <div class="section-head">
+        <h2>相关资料列表</h2>
+        <span class="hint" id="count"></span>
+      </div>
+      <div id="resources"></div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+  <script>
+    App.shell("专家详情", "人物档案、售后用法、内容用法和资料列表。");
+    const id = new URLSearchParams(location.search).get("id");
+    App.load().then((data) => {
+      App.setUpdated(data);
+      const expert = (data.experts || []).find((item) => String(item.id || item.name) === String(id));
+      if (!expert) {
+        document.querySelector("#profile").innerHTML = '<div class="empty">未找到专家。</div>';
+        return;
+      }
+      document.title = `${expert.name} - 专家详情`;
+      document.querySelector("h1").textContent = expert.name;
+      document.querySelector("#profile").innerHTML = `
+        <div class="panel">
+          <div class="expert-top">
+            <div>
+              <div class="expert-name">${App.esc(expert.name)}</div>
+              <p>${App.esc(expert.profile)}</p>
+            </div>
+            <a href="experts.html">返回专家库</a>
+          </div>
+          <div class="tags">${App.tags(expert.focus || [])}</div>
+          <p><strong>为什么相关：</strong>${App.esc(expert.whyRelevant)}</p>
+          <p><strong>售后用法：</strong>${App.esc(expert.salesUse)}</p>
+          <p><strong>内容用法：</strong>${App.esc(expert.contentUse)}</p>
+        </div>
+      `;
+      const resources = expert.resources || [];
+      document.querySelector("#count").textContent = `${resources.length} 条`;
+      document.querySelector("#resources").innerHTML = resources.map(App.expertResource).join("") || '<div class="empty">暂无资料。</div>';
+    });
+  </script>
+</body>
+</html>
+

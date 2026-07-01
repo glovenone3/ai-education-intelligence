@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>专家库 - AI素养评价资料库</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section>
+      <div class="section-head">
+        <h2>专家库</h2>
+        <span class="hint">按人物建档，进入专家页查看资料列表</span>
+      </div>
+      <div class="grid-2" id="experts"></div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+  <script>
+    App.shell("专家库", "专家按人物维度归档，支持进入个人页查看资料列表。");
+    App.load().then((data) => {
+      App.setUpdated(data);
+      document.querySelector("#experts").innerHTML = (data.experts || []).map(App.expertCard).join("");
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>内容素材 - AI素养评价资料库</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section>
+      <div class="section-head">
+        <h2>公众号与自媒体素材</h2>
+        <span class="hint">给内容同学直接拿去选题和开稿</span>
+      </div>
+      <div class="grid-2" id="briefs"></div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+  <script>
+    App.shell("内容素材", "从政策、专家、文献中提炼可写的选题和公司表达。");
+    App.load().then((data) => {
+      App.setUpdated(data);
+      document.querySelector("#briefs").innerHTML = (data.contentBriefs || []).map((brief) => `
+        <article class="brief">
+          <h3>${App.esc(brief.title)}</h3>
+          <div class="meta"><span class="tag type">${App.esc(brief.audience)}</span></div>
+          <p><strong>切入点：</strong>${App.esc(brief.angle)}</p>
+          <p><strong>公司角度：</strong>${App.esc(brief.companyPoint)}</p>
+        </article>
+      `).join("");
+    });
+  </script>
+</body>
+</html>
+

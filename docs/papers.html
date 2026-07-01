@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文献库 - AI素养评价资料库</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section>
+      <div class="section-head">
+        <h2>文献库</h2>
+        <span class="hint">支撑指标设计、AI素养框架和过程性评价</span>
+      </div>
+      <div id="list"></div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+  <script>
+    App.shell("文献库", "沉淀可支撑产品指标、评价框架和内容表达的研究资料。");
+    App.load().then((data) => {
+      App.setUpdated(data);
+      const papers = data.items.filter((item) => item.type === "文献");
+      document.querySelector("#list").innerHTML = papers.map(App.resourceCard).join("") || '<div class="empty">暂无文献资料。</div>';
+    });
+  </script>
+</body>
+</html>
+
