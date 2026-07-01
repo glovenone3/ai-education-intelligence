@@ -1,0 +1,30 @@
+policy_sources:
+  - name: 教育部
+    url: https://www.moe.gov.cn/
+  - name: 中国政府网
+    url: https://www.gov.cn/
+  - name: 国家智慧教育公共服务平台
+    url: https://www.smartedu.cn/
+  - name: 中央网信办
+    url: https://www.cac.gov.cn/
+  - name: 工业和信息化部
+    url: https://www.miit.gov.cn/
+
+media_sources:
+  - name: 中国教育报
+    url: http://www.jyb.cn/
+  - name: 中国教育新闻网
+    url: http://www.jyb.cn/
+  - name: 光明网教育
+    url: https://edu.gmw.cn/
+  - name: 人民网教育
+    url: http://edu.people.com.cn/
+
+paper_sources:
+  - name: 中国知网
+    url: https://www.cnki.net/
+  - name: 万方数据
+    url: https://www.wanfangdata.com.cn/
+  - name: Google Scholar
+    url: https://scholar.google.com/
+
