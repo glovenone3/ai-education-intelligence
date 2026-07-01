@@ -59,7 +59,6 @@ Asia/Shanghai
    - `records/policies.md`
    - `records/experts.md`
    - `records/papers.md`
-   - `records/content-briefs.md`
 
 6. 更新统计：
    - total
@@ -75,13 +74,7 @@ Asia/Shanghai
    - 确认所有新增条目有来源链接。
    - 确认页面能从 `docs/index.html` 读取 `data.json`。
 
-8. 为公众号和自媒体同学整理可用素材：
-   - 结合公司业务定位，提炼 3-5 个内容选题。
-   - 每个选题给出切入点、可用标题、公司角度。
-   - 优先把政策里的“过程性评价、综合素质评价、五育、AI素养、教师数字素养、教育数字化”转成通俗表达。
-   - 避免过度营销化表达，不说“AI替代老师评价学生”，改用“AI辅助教师记录”“成长证据链”“服务教师专业判断”。
-
-9. 提交并推送：
+8. 提交并推送：
    - commit message: `weekly update: YYYY-MM-DD`
    - push 到默认远程分支。
 
@@ -90,3 +83,4 @@ Asia/Shanghai
 - 不复制外部文章全文，只做摘要、分类和来源链接。
 - 资料是内部收集整理使用，尽量保持客观，不写过度营销化表达。
 - 无法确认真实性或日期的内容，不要放入正式条目；可以写入周报的“待确认资料”。
+
