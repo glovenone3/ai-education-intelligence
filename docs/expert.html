@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>专家详情 - AI素养评价资料库</title>
+  <title>专家详情 - 乐途智学“AI+教育”政策文献知识库</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -14,12 +14,16 @@
         <h2>相关资料列表</h2>
         <span class="hint" id="count"></span>
       </div>
+      <div class="toolbar">
+        <button type="button" id="download-md">下载该专家资料MD</button>
+        <button type="button" id="download-doc">下载该专家资料Word</button>
+      </div>
       <div id="resources"></div>
     </section>
   </main>
   <script src="./app.js"></script>
   <script>
-    App.shell("专家详情", "人物档案、售后用法、内容用法和资料列表。");
+    App.shell("专家详情", "人物档案、内部用法和资料列表，默认按资料日期由新到旧排列。");
     const id = new URLSearchParams(location.search).get("id");
     App.load().then((data) => {
       App.setUpdated(data);
@@ -45,11 +49,13 @@
           <p><strong>内容用法：</strong>${App.esc(expert.contentUse)}</p>
         </div>
       `;
-      const resources = expert.resources || [];
+      const resources = App.sortByDate(expert.resources || []);
       document.querySelector("#count").textContent = `${resources.length} 条`;
       document.querySelector("#resources").innerHTML = resources.map(App.expertResource).join("") || '<div class="empty">暂无资料。</div>';
+      App.bindResourceDownloads(document.querySelector("#resources"), resources);
+      App.bindCollectionDownload(document.querySelector("#download-md"), `${expert.name}专家资料`, resources, "md");
+      App.bindCollectionDownload(document.querySelector("#download-doc"), `${expert.name}专家资料`, resources, "doc");
     });
   </script>
 </body>
 </html>
-

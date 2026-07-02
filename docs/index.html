@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI素养评价资料库</title>
+  <title>乐途智学“AI+教育”政策文献知识库</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <section>
       <div class="section-head">
         <h2>资料库入口</h2>
-        <span class="hint">给售后、推广、公众号和自媒体同学使用</span>
+        <span class="hint">给售后、推广、教研、公众号和自媒体同学使用</span>
       </div>
       <div class="grid" id="stats"></div>
     </section>
@@ -24,7 +24,7 @@
       <div class="grid-2">
         <a class="panel-link" href="policies.html">
           <strong>政策库</strong>
-          <span>国家政策、课程标准、北京上海等地方方案。</span>
+          <span>国家政策、课程标准、区域方案和政策解读。</span>
         </a>
         <a class="panel-link" href="experts.html">
           <strong>专家库</strong>
@@ -32,11 +32,19 @@
         </a>
         <a class="panel-link" href="papers.html">
           <strong>文献库</strong>
-          <span>AI素养、信息科技课程、过程性评价相关论文。</span>
+          <span>人工智能、学生素养、教学改革、教师发展相关论文。</span>
         </a>
         <a class="panel-link" href="briefs.html">
           <strong>内容素材</strong>
           <span>结合公司业务整理的公众号、自媒体、售后话术角度。</span>
+        </a>
+        <a class="panel-link" href="sources.html">
+          <strong>来源配置</strong>
+          <span>查看定向检索的根网站名单和关键词范围。</span>
+        </a>
+        <a class="panel-link" href="admin.html">
+          <strong>专家维护</strong>
+          <span>在浏览器里增删改专家和资料，并导出更新后的数据文件。</span>
         </a>
       </div>
     </section>
@@ -60,15 +68,16 @@
 
   <script src="./app.js"></script>
   <script>
-    App.shell("AI素养评价资料库", "每周整理教育、AI教育政策、专家观点和文献资料，并转换成公司可用素材。");
+    App.shell("乐途智学“AI+教育”政策文献知识库", "每周整理人工智能、学生素养、教学改革、教师发展、教育数字化等政策、专家观点和文献资料。");
     App.load().then((data) => {
       App.setUpdated(data);
       const summary = data.summary || {};
       const statRows = [
         ["资料总数", summary.total || 0],
         ["政策", summary.policies || 0],
-        ["专家", summary.experts || 0],
-        ["专家资料", summary.expertResources || 0]
+        ["报道/解读", (summary.reports || 0) + (summary.policyInterpretations || 0)],
+        ["专家资料", summary.expertResources || 0],
+        ["最新日期", summary.latestDate || "-"]
       ];
       document.querySelector("#stats").innerHTML = statRows.map(([label, value]) => `
         <div class="card">
@@ -82,6 +91,7 @@
         <p><strong>定位：</strong>${App.esc(strategy.positioning)}</p>
         <p><strong>售后/推广：</strong>${App.esc(strategy.salesMessage)}</p>
         <p><strong>公众号/自媒体：</strong>${App.esc(strategy.contentMessage)}</p>
+        <p><strong>关键词范围：</strong>${App.esc(((data.scope || {}).keywords || []).join("、"))}</p>
       `;
 
       document.querySelector("#experts").innerHTML = (data.experts || []).map(App.expertCard).join("");

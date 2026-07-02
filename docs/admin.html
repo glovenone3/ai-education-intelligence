@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>专家维护 - 乐途智学“AI+教育”政策文献知识库</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section>
+      <div class="section-head">
+        <h2>专家维护</h2>
+        <span class="hint">静态站不直接写回仓库；编辑后导出 data.json，再由周更任务或人工提交</span>
+      </div>
+      <div class="toolbar">
+        <button type="button" id="add-expert">添加专家模板</button>
+        <button type="button" id="format-json">格式化</button>
+        <button type="button" id="download-json">导出 data.json</button>
+      </div>
+      <textarea id="editor" spellcheck="false"></textarea>
+      <div class="empty" id="status">正在加载数据...</div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>专家列表</h2>
+        <span class="hint">点击删除会先更新上方 JSON，导出后才会生效</span>
+      </div>
+      <div id="expert-list"></div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+  <script>
+    App.shell("专家维护", "支持专家名单和专家资料的增删改，导出后可提交到仓库。");
+    const editor = document.querySelector("#editor");
+    const status = document.querySelector("#status");
+    let current = null;
+
+    function setStatus(message, isError = false) {
+      status.textContent = message;
+      status.className = isError ? "empty error" : "empty";
+    }
+
+    function readData() {
+      try {
+        const parsed = JSON.parse(editor.value);
+        current = parsed;
+        setStatus("JSON 有效。");
+        renderExperts();
+        return parsed;
+      } catch (error) {
+        setStatus(`JSON 解析失败：${error.message}`, true);
+        return null;
+      }
+    }
+
+    function writeData(data) {
+      editor.value = JSON.stringify(data, null, 2);
+      readData();
+    }
+
+    function renderExperts() {
+      const experts = (current && current.experts) || [];
+      document.querySelector("#expert-list").innerHTML = experts.map((expert, index) => `
+        <article class="expert">
+          <div class="expert-top">
+            <div>
+              <div class="expert-name">${App.esc(expert.name)}</div>
+              <div class="resource-count">${(expert.resources || []).length} 条资料</div>
+            </div>
+            <button type="button" data-delete="${index}">删除</button>
+          </div>
+          <p>${App.esc(expert.profile)}</p>
+          <div class="tags">${App.tags(expert.focus || [])}</div>
+        </article>
+      `).join("") || '<div class="empty">暂无专家。</div>';
+    }
+
+    App.load().then((data) => {
+      App.setUpdated(data);
+      writeData(data);
+    });
+
+    editor.addEventListener("input", readData);
+    document.querySelector("#format-json").addEventListener("click", () => {
+      const data = readData();
+      if (data) writeData(data);
+    });
+    document.querySelector("#add-expert").addEventListener("click", () => {
+      const data = readData();
+      if (!data) return;
+      data.experts = data.experts || [];
+      data.experts.push({
+        id: "new-expert",
+        name: "新专家",
+        profile: "补充专家简介。",
+        focus: ["AI+教育"],
+        whyRelevant: "补充与乐途智学业务的关系。",
+        salesUse: "补充售后/推广使用方式。",
+        contentUse: "补充公众号/自媒体使用方式。",
+        resources: []
+      });
+      writeData(data);
+    });
+    document.querySelector("#expert-list").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-delete]");
+      if (!button) return;
+      const data = readData();
+      if (!data) return;
+      data.experts.splice(Number(button.dataset.delete), 1);
+      writeData(data);
+    });
+    document.querySelector("#download-json").addEventListener("click", () => {
+      const data = readData();
+      if (!data) return;
+      const blob = new Blob([JSON.stringify(data, null, 2) + "\n"], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "data.json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

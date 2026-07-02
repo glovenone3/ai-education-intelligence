@@ -1,30 +1,50 @@
 policy_sources:
   - name: 教育部
     url: https://www.moe.gov.cn/
+    query_hints: [人工智能+教育, 教育数字化, 中小学人工智能教育, 教师数字素养, 科技教育]
   - name: 中国政府网
     url: https://www.gov.cn/
+    query_hints: [人工智能+, 教育强国, 教育发展规划]
   - name: 国家智慧教育公共服务平台
     url: https://www.smartedu.cn/
-  - name: 中央网信办
-    url: https://www.cac.gov.cn/
-  - name: 工业和信息化部
-    url: https://www.miit.gov.cn/
+    query_hints: [智慧教育, 教师数字素养, 人工智能教育资源]
+  - name: 国家数据局
+    url: https://www.nda.gov.cn/
+    query_hints: [人工智能+, 数据要素, 教育数字化]
+  - name: 国家发展改革委
+    url: https://www.ndrc.gov.cn/
+    query_hints: [人工智能+, 政策解读, 数字经济]
+
+local_sources:
+  - name: 北京市教育委员会
+    url: https://jw.beijing.gov.cn/
+  - name: 上海市教育委员会
+    url: https://edu.sh.gov.cn/
+  - name: 浙江省教育厅
+    url: https://jyt.zj.gov.cn/
+  - name: 广东省教育厅
+    url: https://edu.gd.gov.cn/
+  - name: 江苏省教育厅
+    url: https://jyt.jiangsu.gov.cn/
+  - name: 山东省教育厅
+    url: https://edu.shandong.gov.cn/
 
 media_sources:
-  - name: 中国教育报
-    url: http://www.jyb.cn/
   - name: 中国教育新闻网
-    url: http://www.jyb.cn/
+    url: https://www.jyb.cn/
+  - name: 中国教育和科研计算机网
+    url: https://www.edu.cn/
   - name: 光明网教育
     url: https://edu.gmw.cn/
   - name: 人民网教育
     url: http://edu.people.com.cn/
 
 paper_sources:
-  - name: 中国知网
-    url: https://www.cnki.net/
-  - name: 万方数据
-    url: https://www.wanfangdata.com.cn/
-  - name: Google Scholar
-    url: https://scholar.google.com/
-
+  - name: 华东师范大学学报（教育科学版）
+    url: https://xbjk.ecnu.edu.cn/
+  - name: 开放教育研究
+    url: https://openedu.sou.edu.cn/
+  - name: 电化教育研究
+    url: https://aver.nwnu.edu.cn/
+  - name: 中国远程教育
+    url: https://www.sciopen.com/

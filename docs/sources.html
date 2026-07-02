@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>来源配置 - 乐途智学“AI+教育”政策文献知识库</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section>
+      <div class="section-head">
+        <h2>根网站名单</h2>
+        <span class="hint">每周任务优先定向检索这些站点，再补充开放检索</span>
+      </div>
+      <div class="grid-2" id="sources"></div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>关键词范围</h2>
+        <span class="hint">用于定向检索和内容分类</span>
+      </div>
+      <div class="panel">
+        <div class="tags" id="keywords"></div>
+      </div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+  <script>
+    App.shell("来源配置", "支持根网站名单配置，提高每周检索精准度。");
+    App.load().then((data) => {
+      App.setUpdated(data);
+      const sources = data.sourceRoots || [];
+      document.querySelector("#sources").innerHTML = sources.map((source) => `
+        <article class="brief">
+          <h3>${App.esc(source.name)}</h3>
+          <div class="meta">
+            <span class="tag type">${App.esc(source.category)}</span>
+            <a href="${App.esc(source.url)}" target="_blank" rel="noopener">打开根站</a>
+          </div>
+          <div class="tags">${App.tags(source.queryHints || [])}</div>
+        </article>
+      `).join("") || '<div class="empty">暂无来源配置。</div>';
+      document.querySelector("#keywords").innerHTML = App.tags(((data.scope || {}).keywords || []));
+    });
+  </script>
+</body>
+</html>

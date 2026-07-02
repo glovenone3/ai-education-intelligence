@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>政策库 - AI素养评价资料库</title>
+  <title>政策库 - 乐途智学“AI+教育”政策文献知识库</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -11,7 +11,11 @@
     <section>
       <div class="section-head">
         <h2>政策库</h2>
-        <span class="hint">国家顶层政策、课程标准、地方落地方案</span>
+        <span class="hint">默认按发布日期由新到旧排列</span>
+      </div>
+      <div class="toolbar">
+        <button type="button" id="download-md">下载当前列表MD</button>
+        <button type="button" id="download-doc">下载当前列表Word</button>
       </div>
       <div class="tabs" id="region-tabs"></div>
       <div id="list"></div>
@@ -19,11 +23,12 @@
   </main>
   <script src="./app.js"></script>
   <script>
-    App.shell("政策库", "按国家、省市和业务相关性整理政策依据。");
+    App.shell("政策库", "按国家、省市和业务相关性整理政策依据，优先展示近期文件。");
     let active = "全部";
+    let visible = [];
     App.load().then((data) => {
       App.setUpdated(data);
-      const items = data.items.filter((item) => item.type === "政策");
+      const items = App.sortByDate(data.items.filter((item) => ["政策", "政策解读"].includes(item.type)));
       const regions = ["全部", ...Array.from(new Set(items.map((item) => item.region)))];
       function render() {
         document.querySelector("#region-tabs").innerHTML = regions.map((region) => `
@@ -35,12 +40,14 @@
             render();
           });
         });
-        const visible = active === "全部" ? items : items.filter((item) => item.region === active);
+        visible = active === "全部" ? items : items.filter((item) => item.region === active);
         document.querySelector("#list").innerHTML = visible.map(App.resourceCard).join("") || '<div class="empty">暂无政策资料。</div>';
       }
       render();
+      App.bindResourceDownloads(document.querySelector("#list"), items);
+      App.bindCollectionDownload(document.querySelector("#download-md"), "政策库", () => visible, "md");
+      App.bindCollectionDownload(document.querySelector("#download-doc"), "政策库", () => visible, "doc");
     });
   </script>
 </body>
 </html>
-

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>文献库 - AI素养评价资料库</title>
+  <title>文献库 - 乐途智学“AI+教育”政策文献知识库</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -11,20 +11,26 @@
     <section>
       <div class="section-head">
         <h2>文献库</h2>
-        <span class="hint">支撑指标设计、AI素养框架和过程性评价</span>
+        <span class="hint">支撑人工智能、学生素养、教学改革、教师发展和评价研究</span>
+      </div>
+      <div class="toolbar">
+        <button type="button" id="download-md">下载文献库MD</button>
+        <button type="button" id="download-doc">下载文献库Word</button>
       </div>
       <div id="list"></div>
     </section>
   </main>
   <script src="./app.js"></script>
   <script>
-    App.shell("文献库", "沉淀可支撑产品指标、评价框架和内容表达的研究资料。");
+    App.shell("文献库", "沉淀可支撑政策理解、产品方案、评价框架和内容表达的研究资料。");
     App.load().then((data) => {
       App.setUpdated(data);
-      const papers = data.items.filter((item) => item.type === "文献");
+      const papers = App.sortByDate(data.items.filter((item) => item.type === "文献"));
       document.querySelector("#list").innerHTML = papers.map(App.resourceCard).join("") || '<div class="empty">暂无文献资料。</div>';
+      App.bindResourceDownloads(document.querySelector("#list"), papers);
+      App.bindCollectionDownload(document.querySelector("#download-md"), "文献库", papers, "md");
+      App.bindCollectionDownload(document.querySelector("#download-doc"), "文献库", papers, "doc");
     });
   </script>
 </body>
 </html>
-

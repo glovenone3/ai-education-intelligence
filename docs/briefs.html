@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>内容素材 - AI素养评价资料库</title>
+  <title>内容素材 - 乐途智学“AI+教育”政策文献知识库</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -13,6 +13,10 @@
         <h2>公众号与自媒体素材</h2>
         <span class="hint">给内容同学直接拿去选题和开稿</span>
       </div>
+      <div class="toolbar">
+        <button type="button" id="download-md">下载选题素材MD</button>
+        <button type="button" id="download-doc">下载选题素材Word</button>
+      </div>
       <div class="grid-2" id="briefs"></div>
     </section>
   </main>
@@ -21,6 +25,18 @@
     App.shell("内容素材", "从政策、专家、文献中提炼可写的选题和公司表达。");
     App.load().then((data) => {
       App.setUpdated(data);
+      const briefs = (data.contentBriefs || []).map((brief) => ({
+        title: brief.title,
+        date: data.generatedAt,
+        type: "内容素材",
+        source: "乐途智学内部整理",
+        url: location.href,
+        region: "内部",
+        topics: [brief.audience],
+        keywords: [],
+        summary: brief.angle,
+        businessRelation: brief.companyPoint
+      }));
       document.querySelector("#briefs").innerHTML = (data.contentBriefs || []).map((brief) => `
         <article class="brief">
           <h3>${App.esc(brief.title)}</h3>
@@ -29,8 +45,9 @@
           <p><strong>公司角度：</strong>${App.esc(brief.companyPoint)}</p>
         </article>
       `).join("");
+      App.bindCollectionDownload(document.querySelector("#download-md"), "内容素材", briefs, "md");
+      App.bindCollectionDownload(document.querySelector("#download-doc"), "内容素材", briefs, "doc");
     });
   </script>
 </body>
 </html>
-

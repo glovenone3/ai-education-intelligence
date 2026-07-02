@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>全部资料 - AI素养评价资料库</title>
+  <title>全部资料 - 乐途智学“AI+教育”政策文献知识库</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -11,20 +11,30 @@
     <section>
       <div class="section-head">
         <h2>全部资料</h2>
-        <span class="hint">搜索、筛选、定位来源</span>
+        <span class="hint">搜索、筛选、定位来源，默认最新在前</span>
+      </div>
+      <div class="toolbar">
+        <button type="button" id="download-md">下载当前结果MD</button>
+        <button type="button" id="download-doc">下载当前结果Word</button>
       </div>
       <div class="searchbar">
         <input id="search" type="search" placeholder="搜索标题、来源、关键词、业务关系">
         <select id="type">
           <option value="">全部类型</option>
           <option value="政策">政策</option>
+          <option value="政策解读">政策解读</option>
           <option value="专家观点">专家观点</option>
           <option value="文献">文献</option>
+          <option value="报道">报道</option>
         </select>
         <select id="topic">
           <option value="">全部方向</option>
+          <option value="AI+教育">AI+教育</option>
           <option value="AI教育">AI教育</option>
           <option value="AI素养">AI素养</option>
+          <option value="学生素养">学生素养</option>
+          <option value="教学改革">教学改革</option>
+          <option value="教师发展">教师发展</option>
           <option value="过程性评价">过程性评价</option>
           <option value="综合素质评价">综合素质评价</option>
           <option value="五育">五育</option>
@@ -36,17 +46,21 @@
   </main>
   <script src="./app.js"></script>
   <script>
-    App.shell("全部资料", "所有政策、专家观点和文献资料的统一检索入口。");
+    App.shell("全部资料", "所有政策、专家观点、文献和报道资料的统一检索入口。");
     const filters = { search: "", type: "", topic: "" };
     let items = [];
+    let visible = [];
     function render() {
-      const visible = App.filterItems(items, filters);
+      visible = App.sortByDate(App.filterItems(items, filters));
       document.querySelector("#list").innerHTML = visible.map(App.resourceCard).join("") || '<div class="empty">暂无匹配资料。</div>';
     }
     App.load().then((data) => {
       App.setUpdated(data);
-      items = data.items || [];
+      items = App.sortByDate(data.items || []);
       render();
+      App.bindResourceDownloads(document.querySelector("#list"), items);
+      App.bindCollectionDownload(document.querySelector("#download-md"), "全部资料", () => visible, "md");
+      App.bindCollectionDownload(document.querySelector("#download-doc"), "全部资料", () => visible, "doc");
       ["search", "type", "topic"].forEach((id) => {
         document.querySelector(`#${id}`).addEventListener("input", (event) => {
           filters[id] = event.target.value;
