@@ -12,7 +12,7 @@
 - 支持点击后转写并下载 Markdown / Word 文档
 - 用 GitHub 保存版本
 - 用 GitHub Pages 查看 `docs/` 页面
-- 由本机 LaunchAgent 在每周一东八区上午 9 点左右触发 Codex 更新
+- 由 Codex 自动化在每周一东八区上午 9 点半触发更新
 
 ## 目录
 
